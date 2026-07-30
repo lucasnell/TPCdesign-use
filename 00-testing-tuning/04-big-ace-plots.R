@@ -19,23 +19,7 @@ ace_df <- list.files("interm-data/ace-test", "big-ace-test.*.csv", full.names = 
 # ============================================================================*
 
 
-ace_df |>
-    # make `b` all the real version:
-    group_by(combo) |>
-    mutate(b = b[method == "real"]) |>
-    ungroup() |>
-    filter(method != "real") |>
-    select(method, combo, n_temps, n_reps, b, obs_cv, converged) |>
-    group_by(method, combo, n_temps, n_reps, b, obs_cv) |>
-    summarize(conv = mean(converged), .groups = "drop") |>
-    group_by(n_temps, n_reps, b, obs_cv) |>
-    # Values > 1 are good!
-    summarize(diff_conv = conv[method == "design"] / conv[method == "uniform"], .groups = "drop") |>
-    getElement("diff_conv") |>
-    (\(x) {print(mean(x > 1)); return(x)})() |>
-    hist(xlab = "Optimized-based converged / uniform converged", main = NULL)
-
-
+# How often does our approach beat uniform temps?
 ace_df |>
     # make `b` all the real version:
     group_by(combo) |>
@@ -51,10 +35,13 @@ ace_df |>
     getElement("diff_rmse") |>
     (\(x) {print(mean(x < 1)); return(x)})() |>
     # (\(x) sign(x) * log10(abs(x)))() |>
-    hist(xlab = "Optimized-based RMSE / uniform RMSE", main = NULL)
+    (\(x) {
+        hist(x, xlab = "Optimized-based RMSE / uniform RMSE", main = NULL)
+        abline(v = 1, lty = "22", col = "red", lwd = 3)
+    })()
 
 
-
+# How often does our approach beat uniform temps for each value of b?
 ace_df |>
     # make `b` all the real version:
     group_by(combo) |>
@@ -135,5 +122,5 @@ val_p <- ace_df |>
 rel_val_p <- rel_p + val_p + plot_layout(ncol = 1, heights = c(1, 0.8))
 # rel_val_p
 
-ggsave("_plots/rel-val-optim1.pdf", rel_val_p, width = 6, height = 6)
-ggsave("_plots/rel-ace-optim.pdf", rel_p, width = 6, height = 6)
+# ggsave("_plots/rel-val-ace.pdf", rel_val_p, width = 6, height = 6)
+# ggsave("_plots/rel-ace.pdf", rel_p, width = 6, height = 6)
