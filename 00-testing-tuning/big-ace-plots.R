@@ -1,10 +1,10 @@
 
 
-source("_testing/00-preamble.R")
+source("00-testing-tuning/00-preamble.R")
 
 
 
-ace_df <- list.files("_testing/interm-data/ace-test", "big-ace-test.*.csv", full.names = TRUE) |>
+ace_df <- list.files("interm-data/ace-test", "big-ace-test.*.csv", full.names = TRUE) |>
     map(\(x) {
         read_csv(x, col_types = "iiciiddddddld")
     }) |>
@@ -135,8 +135,8 @@ val_p <- ace_df |>
 rel_val_p <- rel_p + val_p + plot_layout(ncol = 1, heights = c(1, 0.8))
 # rel_val_p
 
-ggsave("_testing/_plots/rel-val-optim1.pdf", rel_val_p, width = 6, height = 6)
-ggsave("_testing/_plots/rel-ace-optim.pdf", rel_p, width = 6, height = 6)
+ggsave("_plots/rel-val-optim1.pdf", rel_val_p, width = 6, height = 6)
+ggsave("_plots/rel-ace-optim.pdf", rel_p, width = 6, height = 6)
 
 
 # ============================================================================*
@@ -145,7 +145,7 @@ ggsave("_testing/_plots/rel-ace-optim.pdf", rel_p, width = 6, height = 6)
 # ============================================================================*
 # ============================================================================*
 
-source("_testing/big-ace-test.R")
+source("00-testing-tuning/big-ace-test.R")
 
 library(future.apply)
 library(progressr)
@@ -176,7 +176,7 @@ foo <- function(i, prog) {
 
     prog()
 
-    return(do.call(ace_design_temps, args))
+    return(do.call(design_temps, args))
 }
 
 
@@ -224,7 +224,7 @@ one_test_fit(1L, temps, n_reps = 3L, obs_cv = 0.1, ctmin = 5, ctmax = 40,
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-# Function ace_design_temps gives different outputs on cluster vs locally.
+# Function design_temps gives different outputs on cluster vs locally.
 # Testing where the difference starts to occur.
 
 n_temps = 5L

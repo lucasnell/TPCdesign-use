@@ -1,10 +1,10 @@
 
 
-source("_testing/00-preamble.R")
+source("00-testing-tuning/00-preamble.R")
 
 
 
-ace_df <- list.files("_testing/interm-data/ace-tuning", "ace-tuning.*.csv",
+ace_df <- list.files("interm-data/ace-tuning", "ace-tuning.*.csv",
                      full.names = TRUE) |>
     read_csv(col_types = "iiiddiiiidddddddd")
 
@@ -48,9 +48,25 @@ ace_summ_df <- ace_df |>
 #     (\(x) mutate(x, rmse = predict(m, newdata = x)))()
 
 
-booter <- function(x) {
-    b <- aeonia::booter(x)
-    b |> as.list() |> as.data.frame() |> set_names(c("ymin", "y", "ymax"))
+
+# This is just `Hmisc::smean.cl.boot` with output cleaned as in
+# `ggplot2::mean_cl_boot`
+# Hmisc is breaking my computer for some reason.
+booter <- function(x, conf.int = 0.95, B = 1000, na.rm = TRUE, reps = FALSE) {
+    if (na.rm)
+        x <- x[!is.na(x)]
+    n <- length(x)
+    xbar <- mean(x)
+    if (n < 2L)
+        return(c(Mean = xbar, Lower = NA, Upper = NA))
+    z <- unlist(lapply(seq_len(B), function(i, x, N) sum(x[sample.int(N,
+        N, TRUE, NULL)]), x = x, N = n))/n
+    quant <- quantile(z, c((1 - conf.int)/2, (1 + conf.int)/2))
+    names(quant) <- NULL
+    res <- c(Mean = xbar, Lower = quant[1L], Upper = quant[2L])
+    out <- res |> as.list() |> as.data.frame() |>
+        rename(y = Mean, ymin = Lower, ymax = Upper)
+    return(out)
 }
 
 
@@ -78,7 +94,7 @@ ace_summ_df |>
 
 
 ace_summ_df |>
-    filter(abs(ctmin_eps) < 5, abs(ctmax_eps) < 3, abs(logb_eps) < 0.5) |>
+    # filter(abs(ctmin_eps) < 5, abs(ctmax_eps) < 3, abs(logb_eps) < 0.5) |>
     ggplot(aes(n_filler, rmse)) +
     geom_point(color = "gray70", size = 2, shape = 1) +
     # stat_summary(fun.data = "mean_cl_boot", size = 1, shape = 5, stroke = 1,

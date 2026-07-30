@@ -25,7 +25,7 @@ export MAX_ARRAY_INDEX=36
 
 # I first moved this script and the preamble over to bioHPC using the following:
 #
-# cd ~/GitHub/Stanford/TPCdesign/_testing
+# cd ~/GitHub/Stanford/TPCdesign-use/00-testing-tuning
 # scp big-ace-test.* lan68@cbsugreischar.biohpc.cornell.edu:/home2/lan68/tpc/testing/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
@@ -35,7 +35,7 @@ export MAX_ARRAY_INDEX=36
 # sbatch big-ace-test.sh
 #
 # Then, when the jobs are done (assuming you're back on your desktop in
-# directory `~/GitHub/Stanford/TPCdesign/_testing`):
+# directory `~/GitHub/Stanford/TPCdesign-use/00-testing-tuning`):
 #
 # scp lan68@cbsugreischar.biohpc.cornell.edu:/home2/lan68/tpc/testing/big-ace-test*.csv \
 #     ./interm-data/ace-test

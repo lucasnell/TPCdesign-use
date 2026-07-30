@@ -13,7 +13,7 @@ one_fit_rmse <- function(n_temps, n_reps, obs_cv, ctmin, ctmax, a, b,
     dsn_ctmin <- ctmin + ctmin_eps
     dsn_ctmax <- ctmax + ctmax_eps
     dsn_b <- exp(log(b) + logb_eps)
-    temps <- ace_design_temps(n_temps, dsn_ctmin, dsn_ctmax, a, dsn_b, ...)
+    temps <- design_temps(n_temps, dsn_ctmin, dsn_ctmax, a, dsn_b, ...)
 
     obs <- sim_gamma_data(temps, n_reps, obs_cv, ctmin, ctmax, a, b)
 
