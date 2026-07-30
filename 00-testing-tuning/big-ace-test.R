@@ -67,12 +67,12 @@ one_combo_fits <- function(j, input_df,
     # rm(j, input_df, .ctmin_err, .ctmax_err, .logb_err, .n_test_fits)
     # rm(ace_args, x, .n_par_fits, par_lhs_list, temps, Topt, fit_df)
 
-    # Create argument list for extra parameters for ace_design_temps:
+    # Create argument list for extra parameters for design_temps:
     ace_args <- slice(input_df, j) |> as.list()
     for (x in c("combo", "rep", "rmse")) ace_args[[x]] <- NULL
     for (x in c("n_temps", "n_reps", "obs_cv", "ctmin", "ctmax", "a", "b")) {
         assign(x, ace_args[[x]])
-        # These are needed for ace_design_temps (and are not modified):
+        # These are needed for design_temps (and are not modified):
         if (!x %in% c("n_temps", "a")) ace_args[[x]] <- NULL
     }
 
@@ -98,7 +98,7 @@ one_combo_fits <- function(j, input_df,
         args[["ctmin"]] <- ctmin + eps[["ctmin_eps"]]
         args[["ctmax"]] <- ctmax + eps[["ctmax_eps"]]
         args[["b"]] <- exp(log(b) + eps[["logb_eps"]])
-        dtemps <- do.call(ace_design_temps, args)
+        dtemps <- do.call(design_temps, args)
         utemps <- seq(args$ctmin-5, args$ctmax+5, length.out = n_temps+2L) |>
             head(-1) |> tail(-1) |> round(2)
 

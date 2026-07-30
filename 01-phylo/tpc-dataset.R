@@ -1,11 +1,13 @@
 
-
-
-
 library(MASS)  # must come before dplyr
 library(ape)
 library(tidyverse)
 library(taxize)  # for finding alternative species names
+
+
+# Location of files:
+file_dir <- "~/Library/CloudStorage/Box-Box/TPCdesign"
+
 
 # Cleans up species names
 spp_cleaner <- function(species) {
@@ -19,7 +21,7 @@ spp_cleaner <- function(species) {
 }
 
 
-tpc_df <- "~/Library/CloudStorage/Box-Box/TPCdesign/phylogeny_input_briere_params.csv" |>
+tpc_df <- paste0(file_dir, "/phylogeny_input_briere_params.csv") |>
     read_csv(col_types ="ccccdddddc") |>
     rename(ctmin = Tmin, ctmax = Tmax) |>
     # remove genus name from species, then clean it:
@@ -103,7 +105,7 @@ tpc_diff_df |>
 # For use in testing sims:
 tpc_diff_df |>
     select(-species_for_tree) |>
-    write_csv(file = "_testing/interm-data/tpc-genus-diffs.csv")
+    write_csv(file = "interm-data/tpc-genus-diffs.csv")
 
 
 
@@ -125,7 +127,7 @@ tpc_diff_df |>
 # recon_cont <- ace(trait_data, tree, type = "continuous", method = "REML")
 
 # Errors output from timetree when making tree from list of species:
-error_df <- "~/Library/CloudStorage/Box-Box/TPCdesign/tpc-timetree-errors.txt" |>
+error_df <- paste0(file_dir, "/tpc-timetree-errors.txt") |>
     read_lines() |>
     str_remove_all("\\)") |>
     str_split(" \\(") |>
@@ -142,7 +144,7 @@ repl_df <- error_df |>
     select(-reason)
 
 
-phy <- "~/Library/CloudStorage/Box-Box/TPCdesign/tpc-species.nwk" |>
+phy <- paste0(file_dir, "/tpc-species.nwk") |>
     read.tree()
 
 
@@ -193,8 +195,8 @@ taxadb::filter_name("Cosmocomoidea triguttata", provider = "ncbi")
 
 
 
-read_csv("~/Library/CloudStorage/Box-Box/TPCdesign/tpcs.csv",
-         col_types = "cccdddcddcc") |>
+paste0(file_dir, "/tpcs.csv") |>
+    read_csv(col_types = "cccdddcddcc") |>
     # filter(!is.na(species), !is.na(genus)) |>
     mutate(species = spp_cleaner(species)) |>
     filter(grepl("flos", species))
@@ -211,15 +213,15 @@ read_csv("~/Library/CloudStorage/Box-Box/TPCdesign/tpcs.csv",
 
 
 # https://github.com/HuckleyLab/ThermalStress/blob/master/data/tpcs.csv
-read_csv("~/Library/CloudStorage/Box-Box/TPCdesign/tpcs.csv",
-         col_types = "cccdddcddcc") |>
+paste0(file_dir, "/tpcs.csv") |>
+    read_csv(col_types = "cccdddcddcc") |>
     filter(!is.na(species), !is.na(genus)) |>
     select(genus, species) |>
     mutate(species = spp_cleaner(species)) |>
     distinct(genus, species) |>
     arrange(genus, species) |>
     pmap_chr(\(genus, species) paste(genus, species)) |>
-    write_lines("~/Library/CloudStorage/Box-Box/TPCdesign/tpc-species.txt")
+    write_lines(paste0(file_dir, "/tpc-species.txt"))
 
 
 
