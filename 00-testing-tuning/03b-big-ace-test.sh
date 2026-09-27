@@ -80,7 +80,7 @@ plan(multisession, workers = n_threads)
 
 
 # Contains functions one_combo_fits and one_test_fit
-source("03a-big-ace-test.sh")
+source("03a-big-ace-test.R")
 
 
 
@@ -91,7 +91,10 @@ input_df <- crossing(n_temps = 5:10,
                      # Things that don't vary:
                      ctmin = 5,
                      ctmax = 40,
-                     a = 1)
+                     a = 1,
+                     min_temp = 0,
+                     max_temp = 45)
+
 
 
 # --------------*
@@ -126,7 +129,6 @@ curr_stop <- curr_idx * n_rows_pj
 
 
 indices <- curr_start:curr_stop
-
 
 
 

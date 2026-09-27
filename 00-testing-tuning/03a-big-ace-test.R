@@ -99,8 +99,8 @@ one_combo_fits <- function(j, input_df,
         args[["ctmax"]] <- ctmax + eps[["ctmax_eps"]]
         args[["b"]] <- exp(log(b) + eps[["logb_eps"]])
         dtemps <- do.call(design_temps, args)
-        utemps <- seq(args$ctmin-5, args$ctmax+5, length.out = n_temps+2L) |>
-            head(-1) |> tail(-1) |> round(2)
+        utemps <- seq(args$min_temp, args$max_temp, length.out = n_temps) |>
+            round(2)
 
         dfit <- one_test_fit(i = i, temps = dtemps,
                              n_reps = n_reps, obs_cv = obs_cv,
