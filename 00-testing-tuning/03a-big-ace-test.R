@@ -98,6 +98,8 @@ one_combo_fits <- function(j, input_df,
         args[["ctmin"]] <- ctmin + eps[["ctmin_eps"]]
         args[["ctmax"]] <- ctmax + eps[["ctmax_eps"]]
         args[["b"]] <- exp(log(b) + eps[["logb_eps"]])
+        args[["min_temp"]] <- args[["ctmin"]] - 5
+        args[["max_temp"]] <- args[["ctmax"]] + 5
         dtemps <- do.call(design_temps, args)
         utemps <- seq(args$min_temp, args$max_temp, length.out = n_temps) |>
             round(2)

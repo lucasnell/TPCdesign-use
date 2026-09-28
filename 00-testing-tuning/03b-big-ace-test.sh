@@ -26,7 +26,7 @@ export MAX_ARRAY_INDEX=36
 # I first moved this script and the preamble over to bioHPC using the following:
 #
 # cd ~/GitHub/Stanford/TPCdesign-use/00-testing-tuning
-# scp *big-ace-test.* $USER@cbsugreischar.biohpc.cornell.edu:/home2/$USER/tpc/testing/
+# scp *big-ace-test.* biohpc:/home2/$USER/tpc/testing/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
@@ -37,8 +37,7 @@ export MAX_ARRAY_INDEX=36
 # Then, when the jobs are done (assuming you're back on your desktop in
 # directory `~/GitHub/Stanford/TPCdesign-use/00-testing-tuning`):
 #
-# scp $USER@cbsugreischar.biohpc.cornell.edu:/home2/$USER/tpc/testing/big-ace-test*.csv \
-#     ./interm-data/ace-test
+# scp biohpc:/home2/$USER/tpc/testing/big-ace-test*.csv ../interm-data/ace-test/
 #
 #
 # To test:
@@ -91,9 +90,7 @@ input_df <- crossing(n_temps = 5:10,
                      # Things that don't vary:
                      ctmin = 5,
                      ctmax = 40,
-                     a = 1,
-                     min_temp = 0,
-                     max_temp = 45)
+                     a = 1)
 
 
 
