@@ -18,7 +18,7 @@
 # IMPORTANT -- SET THIS FOR THE MAX ARRAY NUMBER ABOVE:
 # (I'm doing it this way--instead of using existing SLURM_ARRAY_TASK_MAX object--
 # so that I can restart a job with just one array index--
-# e.g., `sbatch --array=X 05b-target-ace-test.sh`--if one job fails for a weird reason)
+# e.g., `sbatch --array=X prior-cluster.sh`--if one job fails for a weird reason)
 export MAX_ARRAY_INDEX=9
 
 
@@ -28,21 +28,21 @@ export MAX_ARRAY_INDEX=9
 export RNG_SEEDS="1379370478 879595397 1778284081 1677274749 477758270 1050856010 1902370391 1475704916 2116279401"
 
 
-# I first moved this script and the preamble over to bioHPC using the following:
+# I first moved this script and its functions file over to bioHPC using the following:
 #
-# cd ~/GitHub/Stanford/TPCdesign-use/00-testing-tuning
-# scp *target-ace-test.* biohpc:/home2/$USER/tpc/target/
+# cd ~/GitHub/Stanford/TPCdesign-use/03-prior-sensitivity
+# scp prior-functions.R prior-cluster.sh biohpc:/home2/$USER/tpc/target/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
 # cd /home2/$USER/tpc/target/
 # mkdir -p logs
-# sbatch 05b-target-ace-test.sh
+# sbatch prior-cluster.sh
 #
 # Then, when the jobs are done (assuming you're back on your desktop in
-# directory `~/GitHub/Stanford/TPCdesign-use/00-testing-tuning`):
+# directory `~/GitHub/Stanford/TPCdesign-use/03-prior-sensitivity`):
 #
-# scp biohpc:/home2/$USER/tpc/target/target-ace-test*.csv ../interm-data/ace-target/
+# scp biohpc:/home2/$USER/tpc/target/target-ace-test*.csv ../data/prior-sensitivity/
 #
 #
 # To test:
@@ -87,7 +87,7 @@ handlers(handler_cli(format = paste("{cli::pb_bar} {cli::pb_percent} |",
 
 
 # Contains functions one_combo_fits and one_test_fit
-source("05a-target-ace-test.R")
+source("prior-functions.R")
 
 
 

@@ -1,5 +1,5 @@
 #'
-#' Preamble for ACE tuning
+#' Functions for ACE tuning (sourced by tuning-cluster.sh)
 #' Meant to be run on cluster
 #'
 #'

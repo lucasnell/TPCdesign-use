@@ -1,5 +1,5 @@
 #'
-#' Preamble for targeted ACE test
+#' Functions for prior-sensitivity test (sourced by prior-cluster.sh)
 #' Meant to be run on cluster
 #'
 #'
@@ -9,7 +9,7 @@
 
 
 # Coefficients from one fit for one combo of parameters
-# (same as in 03a-big-ace-test.R)
+# (same as in 02-factorial-test/factorial-functions.R)
 one_test_fit <- function(i, temps, n_reps, obs_cv, ctmin, ctmax, a, b) {
 
 

@@ -1,10 +1,10 @@
 
 
-source("00-testing-tuning/00-preamble.R")
+source("R/preamble.R")
 
 
 
-ace_df <- list.files("interm-data/ace-test", "big-ace-test.*.csv", full.names = TRUE) |>
+ace_df <- list.files("data/factorial-test", "big-ace-test.*.csv", full.names = TRUE) |>
     map(\(x) {
         read_csv(x, col_types = "iiciiddddddld")
     }) |>
@@ -122,5 +122,5 @@ val_p <- ace_df |>
 rel_val_p <- rel_p + val_p + plot_layout(ncol = 1, heights = c(1, 0.8))
 # rel_val_p
 
-# ggsave("_plots/rel-val-ace.pdf", rel_val_p, width = 6, height = 6)
-# ggsave("_plots/rel-ace.pdf", rel_p, width = 6, height = 6)
+# ggsave("figures/rel-val-ace.pdf", rel_val_p, width = 6, height = 6)
+# ggsave("figures/rel-ace.pdf", rel_p, width = 6, height = 6)

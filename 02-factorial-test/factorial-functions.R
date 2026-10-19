@@ -1,5 +1,5 @@
 #'
-#' Preamble for big ACE test
+#' Functions for factorial test (sourced by factorial-cluster.sh)
 #' Meant to be run on cluster
 #'
 #'

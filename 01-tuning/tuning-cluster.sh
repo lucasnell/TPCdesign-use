@@ -16,26 +16,26 @@
 # IMPORTANT -- SET THIS FOR THE MAX ARRAY NUMBER ABOVE:
 # (I'm doing it this way--instead of using existing SLURM_ARRAY_TASK_MAX object--
 # so that I can restart a job with just one array index--
-# e.g., `sbatch --array=X 01b-ace-tuning.sh`--if one job fails for a weird reason)
+# e.g., `sbatch --array=X tuning-cluster.sh`--if one job fails for a weird reason)
 export MAX_ARRAY_INDEX=40
 
 
 
-# I first moved this script and the preamble over to bioHPC using the following:
+# I first moved this script and its functions file over to bioHPC using the following:
 #
-# cd ~/GitHub/Stanford/TPCdesign-use/00-testing-tuning
-# scp *ace-tuning.* biohpc:/home2/$USER/tpc/tuning/
+# cd ~/GitHub/Stanford/TPCdesign-use/01-tuning
+# scp tuning-functions.R tuning-cluster.sh biohpc:/home2/$USER/tpc/tuning/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
 # cd /home2/$USER/tpc/tuning/
 # mkdir -p logs
-# sbatch 01b-ace-tuning.sh
+# sbatch tuning-cluster.sh
 #
 # Then, when the jobs are done (assuming you're back on your desktop in
-# directory `~/GitHub/Stanford/TPCdesign-use/00-testing-tuning`):
+# directory `~/GitHub/Stanford/TPCdesign-use/01-tuning`):
 #
-# scp biohpc:/home2/$USER/tpc/tuning/ace-tuning*.csv ../interm-data/ace-tuning/
+# scp biohpc:/home2/$USER/tpc/tuning/ace-tuning*.csv ../data/tuning/
 #
 #
 # To test:
@@ -78,8 +78,8 @@ handlers(handler_cli(format = paste("{cli::pb_bar} {cli::pb_percent} |",
                          clear = FALSE))
 
 
-# Contains functions one_combo_fits and one_test_fit
-source("01a-ace-tuning.R")
+# Contains functions one_combo_fits and one_fit_rmse
+source("tuning-functions.R")
 
 
 set.seed(1981443946)

@@ -18,26 +18,26 @@
 # IMPORTANT -- SET THIS FOR THE MAX ARRAY NUMBER ABOVE:
 # (I'm doing it this way--instead of using existing SLURM_ARRAY_TASK_MAX object--
 # so that I can restart a job with just one array index--
-# e.g., `sbatch --array=X 03b-big-ace-test.sh`--if one job fails for a weird reason)
+# e.g., `sbatch --array=X factorial-cluster.sh`--if one job fails for a weird reason)
 export MAX_ARRAY_INDEX=36
 
 
 
-# I first moved this script and the preamble over to bioHPC using the following:
+# I first moved this script and its functions file over to bioHPC using the following:
 #
-# cd ~/GitHub/Stanford/TPCdesign-use/00-testing-tuning
-# scp *big-ace-test.* biohpc:/home2/$USER/tpc/testing/
+# cd ~/GitHub/Stanford/TPCdesign-use/02-factorial-test
+# scp factorial-functions.R factorial-cluster.sh biohpc:/home2/$USER/tpc/testing/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
 # cd /home2/$USER/tpc/testing/
 # mkdir -p logs
-# sbatch 03b-big-ace-test.sh
+# sbatch factorial-cluster.sh
 #
 # Then, when the jobs are done (assuming you're back on your desktop in
-# directory `~/GitHub/Stanford/TPCdesign-use/00-testing-tuning`):
+# directory `~/GitHub/Stanford/TPCdesign-use/02-factorial-test`):
 #
-# scp biohpc:/home2/$USER/tpc/testing/big-ace-test*.csv ../interm-data/ace-test/
+# scp biohpc:/home2/$USER/tpc/testing/big-ace-test*.csv ../data/factorial-test/
 #
 #
 # To test:
@@ -79,7 +79,7 @@ plan(multisession, workers = n_threads)
 
 
 # Contains functions one_combo_fits and one_test_fit
-source("03a-big-ace-test.R")
+source("factorial-functions.R")
 
 
 

@@ -1,10 +1,10 @@
 
 
-source("00-testing-tuning/00-preamble.R")
+source("R/preamble.R")
 
 
 
-ace_df <- list.files("interm-data/ace-tuning", "ace-tuning.*.csv",
+ace_df <- list.files("data/tuning", "ace-tuning.*.csv",
                      full.names = TRUE) |>
     read_csv(col_types = "iiiddiiiidddddddd")
 
