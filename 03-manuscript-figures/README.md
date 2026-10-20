@@ -30,6 +30,8 @@ Outputs: `figures/Figure_2.{png,pdf}`,
 Panel A designs come from `TPCdesign::design_temps()` with
 `min_temp = CTmin − 5` and `max_temp = CTmax + 5` (offset priors), which needs
 TPCdesign ≥ 1.0.1.
+The figures use TPCdesign 1.0.2, which differs from 1.0.1 only in
+documentation, comments, and tests, so results are identical.
 
 ## `figures-3-S1.R` → Figures 3 and S1
 

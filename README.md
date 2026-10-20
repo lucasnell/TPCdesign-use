@@ -58,6 +58,6 @@ cluster and figure scripts.
 
 ## Packages
 
-Local: tidyverse, patchwork, nls.multstart, TPCdesign, ggtext, scico,
+Local: tidyverse, patchwork, nls.multstart, TPCdesign (1.0.2), ggtext, scico,
 acebayes, lhs.
 Cluster: additionally future.apply, progressr, and rTPC (loaded but not called).

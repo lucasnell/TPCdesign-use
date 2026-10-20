@@ -50,3 +50,4 @@ so the reasoning chain stays readable. -->
 | 2026-10-19 | Tables and caches in `data/`; `figures/` holds plots only, untracked | Keep data out of the figures folder |
 | 2026-10-20 | Remove tuning simulations (former `01-tuning/`, last in `7e701d8`) | Out of date; not cited in the paper |
 | 2026-10-20 | Keep ACE starts in [CTmin + `min_sep`, CTmax − `min_sep`] | Whole-window starts give non-finite utilities; same final designs either way (`checks/design-start-range.R`, removed; last in `7e701d8`) |
+| 2026-10-20 | Figures use TPCdesign 1.0.2 (cluster simulations used 1.0.1) | Differs from 1.0.1 only in documentation, comments, and tests; results identical |

@@ -3,6 +3,8 @@
 How much does optimized design depend on prior bias and prior width?
 Its output feeds Figure S1 (`03-manuscript-figures/figures-3-S1.R`); there is
 no separate plotting script.
+Run with TPCdesign 1.0.1; 1.0.2 gives identical results (it changes only
+documentation, comments, and tests).
 
 | File | Role |
 |---|---|

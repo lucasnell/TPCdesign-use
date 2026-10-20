@@ -3,6 +3,8 @@
 Optimized vs. equal-spaced temperatures across a full factorial of experiment
 sizes, curve shapes, and noise levels.
 Its output feeds Figures 2 and 3 (`03-manuscript-figures/`).
+Run with TPCdesign 1.0.1; 1.0.2 gives identical results (it changes only
+documentation, comments, and tests).
 
 | File | Role |
 |---|---|

@@ -85,6 +85,10 @@ Keep settled decisions here so they stop being reopened; keep open questions in 
 - **2026-10-20 —** Removed the `design_temps()` tuning simulations (former
   `01-tuning/`; last in commit `7e701d8`). They predated the temperature-window
   change and the paper does not cite them.
+- **2026-10-20 —** Figures use TPCdesign 1.0.2; the cluster simulations
+  (2026-09-28) used 1.0.1. 1.0.2 differs from 1.0.1
+  only in documentation, comments, tests, and an unreachable branch
+  commented out in `tpc_pace()`, so results are identical.
 
 ## Working notes
 
