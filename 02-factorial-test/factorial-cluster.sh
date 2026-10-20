@@ -11,7 +11,6 @@
 #SBATCH --job-name=tpc
 #SBATCH --output=logs/tpc-%a.out
 #SBATCH --error=logs/tpc-%a.err
-#SBATCH --mail-user=$USER@cornell.edu
 #SBATCH --mail-type=END,FAIL
 
 
@@ -24,9 +23,11 @@ export MAX_ARRAY_INDEX=36
 
 
 # I first moved this script and its functions file over to bioHPC using the following:
+# (replace <BIOHPC_USER> with your BioHPC username in the scp commands below;
+# these run on your local machine, where $USER is not your BioHPC username)
 #
 # cd ~/GitHub/Stanford/TPCdesign-use/02-factorial-test
-# scp factorial-functions.R factorial-cluster.sh biohpc:/home2/$USER/tpc/testing/
+# scp factorial-functions.R factorial-cluster.sh biohpc:/home2/<BIOHPC_USER>/tpc/testing/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
@@ -37,7 +38,7 @@ export MAX_ARRAY_INDEX=36
 # Then, when the jobs are done (assuming you're back on your desktop in
 # directory `~/GitHub/Stanford/TPCdesign-use/02-factorial-test`):
 #
-# scp biohpc:/home2/$USER/tpc/testing/big-ace-test*.csv ../data/factorial-test/
+# scp biohpc:/home2/<BIOHPC_USER>/tpc/testing/big-ace-test*.csv ../data/factorial-test/
 #
 #
 # To test:

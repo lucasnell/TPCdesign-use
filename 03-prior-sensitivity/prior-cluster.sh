@@ -11,7 +11,6 @@
 #SBATCH --job-name=tpc-target
 #SBATCH --output=logs/tpc-%a.out
 #SBATCH --error=logs/tpc-%a.err
-#SBATCH --mail-user=$USER@cornell.edu
 #SBATCH --mail-type=END,FAIL
 
 
@@ -29,9 +28,11 @@ export RNG_SEEDS="1379370478 879595397 1778284081 1677274749 477758270 105085601
 
 
 # I first moved this script and its functions file over to bioHPC using the following:
+# (replace <BIOHPC_USER> with your BioHPC username in the scp commands below;
+# these run on your local machine, where $USER is not your BioHPC username)
 #
 # cd ~/GitHub/Stanford/TPCdesign-use/03-prior-sensitivity
-# scp prior-functions.R prior-cluster.sh biohpc:/home2/$USER/tpc/target/
+# scp prior-functions.R prior-cluster.sh biohpc:/home2/<BIOHPC_USER>/tpc/target/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
@@ -42,7 +43,7 @@ export RNG_SEEDS="1379370478 879595397 1778284081 1677274749 477758270 105085601
 # Then, when the jobs are done (assuming you're back on your desktop in
 # directory `~/GitHub/Stanford/TPCdesign-use/03-prior-sensitivity`):
 #
-# scp biohpc:/home2/$USER/tpc/target/target-ace-test*.csv ../data/prior-sensitivity/
+# scp biohpc:/home2/<BIOHPC_USER>/tpc/target/target-ace-test*.csv ../data/prior-sensitivity/
 #
 #
 # To test:

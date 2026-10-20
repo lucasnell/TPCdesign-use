@@ -9,7 +9,6 @@
 #SBATCH --job-name=ace-tune
 #SBATCH --output=logs/ace-tune-%a.out
 #SBATCH --error=logs/ace-tune-%a.err
-#SBATCH --mail-user=$USER@cornell.edu
 #SBATCH --mail-type=END,FAIL
 
 
@@ -22,9 +21,11 @@ export MAX_ARRAY_INDEX=40
 
 
 # I first moved this script and its functions file over to bioHPC using the following:
+# (replace <BIOHPC_USER> with your BioHPC username in the scp commands below;
+# these run on your local machine, where $USER is not your BioHPC username)
 #
 # cd ~/GitHub/Stanford/TPCdesign-use/01-tuning
-# scp tuning-functions.R tuning-cluster.sh biohpc:/home2/$USER/tpc/tuning/
+# scp tuning-functions.R tuning-cluster.sh biohpc:/home2/<BIOHPC_USER>/tpc/tuning/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
 #
@@ -35,7 +36,7 @@ export MAX_ARRAY_INDEX=40
 # Then, when the jobs are done (assuming you're back on your desktop in
 # directory `~/GitHub/Stanford/TPCdesign-use/01-tuning`):
 #
-# scp biohpc:/home2/$USER/tpc/tuning/ace-tuning*.csv ../data/tuning/
+# scp biohpc:/home2/<BIOHPC_USER>/tpc/tuning/ace-tuning*.csv ../data/tuning/
 #
 #
 # To test:
