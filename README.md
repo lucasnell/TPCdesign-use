@@ -35,6 +35,7 @@ One simulated experiment proceeds as follows:
 | `02-factorial-test/` | Optimized vs. equal-spaced across number of temperatures, replicates, *b*, and noise | `data/factorial-test/` |
 | `03-prior-sensitivity/` | Optimized vs. equal-spaced when priors are biased or too narrow/wide | `data/prior-sensitivity/` |
 | `04-manuscript-figures/` | Figures 2, 3, and S1 | `figures/`, `data/figure-summaries/`, `data/figure-2-cache/` |
+| `checks/` | One-off checks of package behaviour; `design-start-range.R` compares ACE starting ranges in `design_temps()` | `data/checks/` |
 | `data/` | Simulation output, figure summary tables, and the Figure 2 run cache (not in git) | — |
 | `figures/` | Saved plots only (PDFs and PNGs not in git) | — |
 
