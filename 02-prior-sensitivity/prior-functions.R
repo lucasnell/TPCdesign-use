@@ -9,7 +9,7 @@
 
 
 # Coefficients from one fit for one combo of parameters
-# (same as in 02-factorial-test/factorial-functions.R)
+# (same as in 01-factorial-test/factorial-functions.R)
 one_test_fit <- function(i, temps, n_reps, obs_cv, ctmin, ctmax, a, b) {
 
 

@@ -26,7 +26,7 @@ export MAX_ARRAY_INDEX=36
 # (replace <BIOHPC_USER> with your BioHPC username in the scp commands below;
 # these run on your local machine, where $USER is not your BioHPC username)
 #
-# cd ~/GitHub/Stanford/TPCdesign-use/02-factorial-test
+# cd ~/GitHub/Stanford/TPCdesign-use/01-factorial-test
 # scp factorial-functions.R factorial-cluster.sh biohpc:/home2/<BIOHPC_USER>/tpc/testing/
 #
 # This was then run on BioHPC in a non-interactive batch job started with the following:
@@ -36,7 +36,7 @@ export MAX_ARRAY_INDEX=36
 # sbatch factorial-cluster.sh
 #
 # Then, when the jobs are done (assuming you're back on your desktop in
-# directory `~/GitHub/Stanford/TPCdesign-use/02-factorial-test`):
+# directory `~/GitHub/Stanford/TPCdesign-use/01-factorial-test`):
 #
 # scp biohpc:/home2/<BIOHPC_USER>/tpc/testing/big-ace-test*.csv ../data/factorial-test/
 #

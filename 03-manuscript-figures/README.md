@@ -1,4 +1,4 @@
-# 04-manuscript-figures
+# 03-manuscript-figures
 
 Run from the project root.
 Both scripts check row counts with `stopifnot()` and stop if the input CSVs

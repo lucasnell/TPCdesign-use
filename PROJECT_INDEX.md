@@ -1,7 +1,7 @@
 # Use and testing of TPCdesign — index
 
-**Status as of 2026-10-20:** All three simulation sets (tuning, factorial test, prior
-sensitivity) have run, and Figures 2, 3, and S1 were regenerated from the current code on
+**Status as of 2026-10-20:** Both simulation sets (factorial test and prior sensitivity)
+have run, and Figures 2, 3, and S1 were regenerated from the current code on
 2026-10-19 and 2026-10-20. Figure 2A now uses the package's `design_temps()`, so it differs
 from the earlier version made with a local copy.
 
@@ -28,10 +28,9 @@ README.
 
 | Workstream | State |
 |---|---|
-| Tuning `design_temps()` settings (`01-tuning/`) | Output CSVs dated 2026-07-28; takeaways in `tuning-plots.R` comments |
-| Factorial test (`02-factorial-test/`) | Output CSVs dated 2026-09-28 |
-| Prior sensitivity (`03-prior-sensitivity/`) | Output CSVs dated 2026-09-28 |
-| Manuscript figures (`04-manuscript-figures/`) | Figures 2, 3, S1 regenerated 2026-10-19/20 |
+| Factorial test (`01-factorial-test/`) | Output CSVs dated 2026-09-28 |
+| Prior sensitivity (`02-prior-sensitivity/`) | Output CSVs dated 2026-09-28 |
+| Manuscript figures (`03-manuscript-figures/`) | Figures 2, 3, S1 regenerated 2026-10-19/20 |
 
 ## Key links
 
@@ -49,4 +48,5 @@ so the reasoning chain stays readable. -->
 | 2026-10-19 | One folder per experiment, README in each | Scripts and outputs were hard to map to experiments |
 | 2026-10-19 | Figure 2A uses `TPCdesign::design_temps()` and `briere2_tpc()` (TPCdesign ≥ 1.0.1) | All figures from one implementation |
 | 2026-10-19 | Tables and caches in `data/`; `figures/` holds plots only, untracked | Keep data out of the figures folder |
-| 2026-10-20 | Keep ACE starts in [CTmin + `min_sep`, CTmax − `min_sep`] | Whole-window starts give non-finite utilities; same final designs either way (`checks/design-start-range.R`) |
+| 2026-10-20 | Remove tuning simulations (former `01-tuning/`, last in `7e701d8`) | Out of date; not cited in the paper |
+| 2026-10-20 | Keep ACE starts in [CTmin + `min_sep`, CTmax − `min_sep`] | Whole-window starts give non-finite utilities; same final designs either way (`checks/design-start-range.R`, removed; last in `7e701d8`) |

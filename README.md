@@ -31,11 +31,9 @@ One simulated experiment proceeds as follows:
 | Folder | Contents | Output |
 |---|---|---|
 | `R/` | `preamble.R`: packages, ggplot theme, and device options for local scripts | — |
-| `01-tuning/` | Tuning `design_temps()` arguments (`min_sep`, `n_filler`, `n_draws`, `n_starts`) | `data/tuning/` |
-| `02-factorial-test/` | Optimized vs. equal-spaced across number of temperatures, replicates, *b*, and noise | `data/factorial-test/` |
-| `03-prior-sensitivity/` | Optimized vs. equal-spaced when priors are biased or too narrow/wide | `data/prior-sensitivity/` |
-| `04-manuscript-figures/` | Figures 2, 3, and S1 | `figures/`, `data/figure-summaries/`, `data/figure-2-cache/` |
-| `checks/` | One-off checks of package behaviour; `design-start-range.R` compares ACE starting ranges in `design_temps()` | `data/checks/` |
+| `01-factorial-test/` | Optimized vs. equal-spaced across number of temperatures, replicates, *b*, and noise | `data/factorial-test/` |
+| `02-prior-sensitivity/` | Optimized vs. equal-spaced when priors are biased or too narrow/wide | `data/prior-sensitivity/` |
+| `03-manuscript-figures/` | Figures 2, 3, and S1 | `figures/`, `data/figure-summaries/`, `data/figure-2-cache/` |
 | `data/` | Simulation output, figure summary tables, and the Figure 2 run cache (not in git) | — |
 | `figures/` | Saved plots only (PDFs and PNGs not in git) | — |
 
@@ -43,7 +41,7 @@ Each numbered folder has its own README.
 
 ## Running
 
-Simulations in `01`–`03` run as SLURM array jobs on Cornell BioHPC.
+Simulations in `01` and `02` run as SLURM array jobs on Cornell BioHPC.
 Each folder has a `*-functions.R` file and a `*-cluster.sh` script that sources
 it; copy both to the cluster, `sbatch` the shell script, and copy the CSVs back
 into `data/`.
@@ -51,7 +49,7 @@ The exact `scp` and `sbatch` commands are in comments at the top of each
 `*-cluster.sh`.
 Cluster scripts run from their own remote directory.
 
-All local scripts (`*-plots.R` and `04-manuscript-figures/*.R`) run from the
+All local scripts (`*-plots.R` and `03-manuscript-figures/*.R`) run from the
 project root (open `TPCdesign-use.Rproj`, or `setwd()` to this folder).
 
 `.gitignore` excludes `*.csv`, `*.rds`, `*.pdf`, and `figures/*.png`, so

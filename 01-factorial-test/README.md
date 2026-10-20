@@ -1,8 +1,8 @@
-# 02-factorial-test
+# 01-factorial-test
 
 Optimized vs. equal-spaced temperatures across a full factorial of experiment
 sizes, curve shapes, and noise levels.
-Its output feeds Figures 2 and 3 (`04-manuscript-figures/`).
+Its output feeds Figures 2 and 3 (`03-manuscript-figures/`).
 
 | File | Role |
 |---|---|

@@ -33,22 +33,22 @@ do not, and you stop reading it yourself.
 
 - **Data:** `data/` — all derived (simulation output, figure summary tables,
   Figure 2 run cache). Not in git (`*.csv`, `*.rds` ignored); regenerate with
-  the cluster scripts and `04-manuscript-figures/`.
+  the cluster scripts and `03-manuscript-figures/`.
 - **Code:** this repo, https://github.com/lucasnell/TPCdesign-use (branch
   `main`). The package under test is https://github.com/lucasnell/TPCdesign.
 - **Figures:** `figures/` — plots only (PDF, PNG; not in git).
 
 ## How this project works
 
-- One folder per experiment: `01-tuning/`, `02-factorial-test/`,
-  `03-prior-sensitivity/`, plus `04-manuscript-figures/` and `checks/`.
+- One folder per experiment: `01-factorial-test/` and
+  `02-prior-sensitivity/`, plus `03-manuscript-figures/`.
   Each has a README; the top-level `README.md` gives the shared simulation
   setup and layout. Update the relevant README whenever a script's inputs,
   outputs, or design changes.
 - Experiment folders pair `*-functions.R` (sourced) with `*-cluster.sh`
   (SLURM array job on Cornell BioHPC; runs from its own remote directory).
   CSVs are copied back into `data/<experiment>/`. Output file names
-  (`ace-tuning-XX`, `big-ace-test-XX`, `target-ace-test-XX`) predate the
+  (`big-ace-test-XX`, `target-ace-test-XX`) predate the
   folder names and are kept so they match what the cluster writes.
 - Local scripts run from the project root. `R/preamble.R` is sourced by the
   `*-plots.R` scripts.
@@ -77,9 +77,13 @@ Keep settled decisions here so they stop being reopened; keep open questions in 
 - **2026-10-20 —** `design_temps()` keeps drawing ACE starting temperatures
   from [CTmin + `min_sep`, CTmax − `min_sep`], not the whole window. Starts
   across the whole window give non-finite utilities; ACE can still move to
-  any temperature in the window, and `checks/design-start-range.R` found the
-  same final designs and utilities from both start ranges. The lack of
-  optimized temperatures near CTmin comes from the utility, not the starts.
+  any temperature in the window, and `checks/design-start-range.R`
+  (removed; last in commit `7e701d8`) found the same final designs and
+  utilities from both start ranges. The lack of optimized temperatures near
+  CTmin comes from the utility, not the starts.
+- **2026-10-20 —** Removed the `design_temps()` tuning simulations (former
+  `01-tuning/`; last in commit `7e701d8`). They predated the temperature-window
+  change and the paper does not cite them.
 
 ## Working notes
 
