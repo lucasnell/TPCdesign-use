@@ -32,7 +32,8 @@ do not, and you stop reading it yourself.
 ## Where things live
 
 - **Data:** `data/` — all derived (simulation output, figure summary tables,
-  Figure 2 run cache). Not in git (`*.csv`, `*.rds` ignored); regenerate with
+  Figure 2 run cache). Only `data/README.md` and `data/.gitignore` are
+  in git; `data/README.md` lists every expected file; regenerate with
   the cluster scripts and `03-manuscript-figures/`.
 - **Code:** this repo, https://github.com/lucasnell/TPCdesign-use (branch
   `main`). The package under test is https://github.com/lucasnell/TPCdesign.
