@@ -122,7 +122,6 @@ one_combo_fits <- function(j, input_df,
         fit_df <- future_lapply(1:.n_test_fits, one_temp_fun,
                                future.seed = .parallel_seed,
                                future.globals = c("ace_args", "truth",
-                                                  "ctmin", "ctmax", "a", "b",
                                                   "one_test_fit"),
                                future.packages = c("TPCdesign", "dplyr",
                                                    "nls.multstart", "tibble"))

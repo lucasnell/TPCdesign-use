@@ -56,3 +56,7 @@ rsconnect/
 
 # plot files
 *.pdf
+
+# figure outputs
+figures/*.pdf
+figures/*.png

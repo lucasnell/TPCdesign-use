@@ -15,6 +15,8 @@ library(nls.multstart)
 # Run from the project root (TPCdesign-use/).
 data_dir <- "data/factorial-test"
 output_dir <- "figures"
+summary_dir <- "data/figure-summaries"
+dir.create(summary_dir, showWarnings = FALSE, recursive = TRUE)
 dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Read the results, keeping file names because combo IDs can repeat between files.
@@ -31,111 +33,7 @@ truth <- ace |> filter(method == "real") |>
   select(source_file, combo, true_ctmin = ctmin, true_ctmax = ctmax, true_Topt = Topt, true_b = b)
 stopifnot(!anyDuplicated(truth[c("source_file", "combo")]))
 
-# Functions for selecting temperatures and fitting simulated observations
-# The shared temperature window requires a small adaptation of TPCdesign 1.0.0.
-
-tpc_pace_local <- function(utility, start.d, B, lower, upper, limits) {
-  Q <- 20
-  N1 <- 20
-  N2 <- 0
-  deterministic <- TRUE
-  binary <- FALSE
-
-  rout <- lapply(start.d, function(d) {
-    out <- acebayes::ace(
-      utility = utility,
-      start.d = d,
-      B = B,
-      Q = Q,
-      N1 = N1,
-      N2 = N2,
-      lower = lower,
-      upper = upper,
-      limits = limits,
-      binary = binary,
-      deterministic = deterministic,
-      progress = FALSE
-    )
-    list(phase2.d = out$phase2.d)
-  })
-
-  routd <- lapply(rout, `[[`, "phase2.d")
-  evals <- lapply(routd, \(d) utility(d = d, B = B))
-  besti <- which.max(evals)
-  list(d = routd[[besti]], eval = evals[[besti]], besti = besti)
-}
-
-gap_filler_local <- function(n_filler, opt_temps, min_temp, max_temp, digits) {
-  if (n_filler <= 0) return(opt_temps)
-  points <- c(min_temp, sort(opt_temps), max_temp)
-  for (i in seq_len(n_filler)) {
-    gaps <- diff(points)
-    largest_gap_idx <- which.max(gaps)
-    points <- sort(c(points, mean(points[largest_gap_idx:(largest_gap_idx + 1)])))
-  }
-  final <- setdiff(points, c(min_temp, max_temp))
-  if (min_temp %in% opt_temps) final <- c(min_temp, final)
-  if (max_temp %in% opt_temps) final <- c(final, max_temp)
-  sort(round(final, digits))
-}
-
-design_temps_window <- function(n_temps, ctmin, ctmax, a, b,
-  ctmin_err = 2.5,
-  ctmax_err = 1.5,
-  logb_err = 0.26,
-  temp_min,
-  temp_max,
-  min_sep = 1,
-  n_filler = 1L,
-  n_draws = 250L,
-  n_starts = 7L,
-  digits = 2L) {
-  n_optimal <- n_temps - n_filler
-  prior_ctmin <- ctmin + c(-1, 1) * ctmin_err
-  prior_ctmax <- ctmax + c(-1, 1) * ctmax_err
-  prior_lb <- log(b) + c(-1, 1) * logb_err
-
-  theta_draws <- cbind(
-    ctmin = stats::runif(n_draws, prior_ctmin[1], prior_ctmin[2]),
-    ctmax = stats::runif(n_draws, prior_ctmax[1], prior_ctmax[2]),
-    b = exp(stats::runif(n_draws, prior_lb[1], prior_lb[2])),
-    a = rep(a, n_draws)
-  )
-
-  if ((n_optimal - 1L) * min_sep > (temp_max - temp_min)) {
-    stop("min_sep is too large for the shared temperature window.", call. = FALSE)
-  }
-
-  start_min <- temp_min + min_sep
-  start_max <- temp_max - min_sep
-  start_temp_list <- lapply(seq_len(n_starts), function(i) {
-    d <- lhs::randomLHS(n = n_optimal, k = 1) * (start_max - start_min) + start_min
-    d <- d[order(d), , drop = FALSE]
-    colnames(d) <- "temp"
-    d
-  })
-
-  limits_minsep <- function(d, i, j) {
-    grid <- seq(from = temp_min, to = temp_max, length.out = 2000)
-    other_points <- as.vector(d)[-i]
-    for (s in other_points) {
-      grid <- grid[(grid < (s - min_sep)) | (grid > (s + min_sep))]
-    }
-    grid
-  }
-
-  design_robust <- tpc_pace_local(
-    utility = TPCdesign:::utility_briere2,
-    start.d = start_temp_list,
-    B = rep(list(theta = theta_draws), 2),
-    lower = temp_min,
-    upper = temp_max,
-    limits = limits_minsep
-  )
-
-  opt_temps <- sort(round(design_robust$d, digits))
-  gap_filler_local(n_filler, opt_temps, temp_min, temp_max, digits)
-}
+# Function for selecting temperatures and fitting simulated observations
 
 simulate_pair <- function(j, jobs) {
   z <- jobs[j, ]
@@ -145,8 +43,8 @@ simulate_pair <- function(j, jobs) {
   tmin <- 5 + z$ctmin_eps
   tmax <- 40 + z$ctmax_eps
   pb <- z$true_b * exp(z$logb_eps)
-  temps <- list(Optimized = design_temps_window(6L, tmin, tmax, 1, pb,
-    temp_min = tmin - 5, temp_max = tmax + 5, min_sep = 2),
+  temps <- list(Optimized = design_temps(6L, tmin, tmax, 1, pb,
+    min_temp = tmin - 5, max_temp = tmax + 5, min_sep = 2),
     `Equal-spaced` = round(seq(tmin - 5, tmax + 5, length.out = 6), 2))
   stopifnot(all(vapply(temps, length, integer(1)) == 6),
     min(diff(sort(temps$Optimized))) >= 1.99,
@@ -181,12 +79,6 @@ simulate_pair <- function(j, jobs) {
     observations[[m]] <- cbind(meta[rep(1, nrow(obs)), ], obs)
   }
   list(fits = bind_rows(fits), designs = bind_rows(designs), observations = bind_rows(observations))
-}
-
-briere2_tpc <- function(temp, ctmin, ctmax, a, b, scale = FALSE) {
-  ans <- a * temp * pmax(temp - ctmin, 0) * pmax(ctmax - temp, 0)^b
-  if (scale && max(ans) > 0) ans <- ans / max(ans)
-  ans
 }
 
 curve_max_height <- function(ctmin, ctmax, a, b) {
@@ -224,10 +116,11 @@ for (mode in c("shared", "varying")) {
   inputs <- jobs
   if (mode == "shared")
   for (k in c("ctmin_eps", "ctmax_eps", "logb_eps")) inputs[[k]] <- shared[[k]]
-  cache_dir <- file.path(output_dir, "cache", mode)
+  cache_dir <- file.path("data", "figure-2-cache", mode)
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
   # Refuse stale caches after input or package changes.
   signature <- list(inputs = as.data.frame(inputs),
+    design_fun = "TPCdesign::design_temps",
     versions = vapply(c("TPCdesign", "acebayes", "lhs", "nls.multstart"),
     function(p) as.character(packageVersion(p)), ""))
   manifest <- file.path(cache_dir, "inputs.rds")
@@ -400,4 +293,4 @@ ggsave(file.path(output_dir, "Figure_2.png"), fig,
        width = 7.5, height = 10, dpi = 350, bg = "white")
 ggsave(file.path(output_dir, "Figure_2.pdf"), fig,
        width = 7.5, height = 10, bg = "white")
-write.csv(median_ratios, file.path(output_dir, "Figure_2B_summary.csv"), row.names = FALSE)
+write.csv(median_ratios, file.path(summary_dir, "Figure_2B_summary.csv"), row.names = FALSE)

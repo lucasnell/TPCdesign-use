@@ -34,9 +34,9 @@ One simulated experiment proceeds as follows:
 | `01-tuning/` | Tuning `design_temps()` arguments (`min_sep`, `n_filler`, `n_draws`, `n_starts`) | `data/tuning/` |
 | `02-factorial-test/` | Optimized vs. equal-spaced across number of temperatures, replicates, *b*, and noise | `data/factorial-test/` |
 | `03-prior-sensitivity/` | Optimized vs. equal-spaced when priors are biased or too narrow/wide | `data/prior-sensitivity/` |
-| `04-manuscript-figures/` | Figures 2, 3, and S1 | `figures/` |
-| `data/` | Simulation output CSVs (not in git) | — |
-| `figures/` | Saved plots and figure summary tables (PDFs and CSVs not in git) | — |
+| `04-manuscript-figures/` | Figures 2, 3, and S1 | `figures/`, `data/figure-summaries/`, `data/figure-2-cache/` |
+| `data/` | Simulation output, figure summary tables, and the Figure 2 run cache (not in git) | — |
+| `figures/` | Saved plots only (PDFs and PNGs not in git) | — |
 
 Each numbered folder has its own README.
 
@@ -53,8 +53,9 @@ Cluster scripts run from their own remote directory.
 All local scripts (`*-plots.R` and `04-manuscript-figures/*.R`) run from the
 project root (open `TPCdesign-use.Rproj`, or `setwd()` to this folder).
 
-`.gitignore` excludes `*.csv`, `*.rds`, and `*.pdf`, so `data/` contents and
-PDF figures exist only locally; regenerate them with the cluster scripts.
+`.gitignore` excludes `*.csv`, `*.rds`, `*.pdf`, and `figures/*.png`, so
+`data/` contents and figures exist only locally; regenerate them with the
+cluster and figure scripts.
 
 ## Packages
 

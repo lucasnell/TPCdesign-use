@@ -41,6 +41,5 @@ below equal-spaced RMSE, overall and by *b*, and builds:
   `n_reps`, faceted by *b* and `obs_cv`.
 - `val_p`: mean RMSE for each method at *b* = 1, `obs_cv` = 0.1.
 
-Saving is commented out.
-`figures/rel-ace.pdf` and `figures/rel-val-ace.pdf` predate the current CSVs
-and are stale.
+The commented-out `ggsave()` calls write `figures/rel-ace.pdf` and
+`figures/rel-val-ace.pdf`.

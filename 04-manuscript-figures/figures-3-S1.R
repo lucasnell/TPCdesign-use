@@ -12,6 +12,8 @@ library(scico)
 data_dir <- "data/factorial-test"
 target_dir <- "data/prior-sensitivity"
 output_dir <- "figures"
+summary_dir <- "data/figure-summaries"
+dir.create(summary_dir, showWarnings = FALSE, recursive = TRUE)
 dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
 
 # Read the results, keeping file names because combo IDs can repeat between files.
@@ -95,7 +97,7 @@ ggsave(file.path(output_dir, "Figure_3.png"), figure,
        width = 15.5, height = 5.8, dpi = 350, bg = "white")
 ggsave(file.path(output_dir, "Figure_3.pdf"), figure,
        width = 15.5, height = 5.8, bg = "white")
-write.csv(cell_summary, file.path(output_dir, "Figure_3_summary.csv"), row.names = FALSE)
+write.csv(cell_summary, file.path(summary_dir, "Figure_3_summary.csv"), row.names = FALSE)
 
 # Figure S1: sensitivity to prior bias and uncertainty
 
@@ -129,8 +131,8 @@ s <- d |> group_by(err_mult, method) |>
   mutate(method_label = factor(ifelse(method == "design", "Optimized", "Equal-spaced"),
   levels = c("Optimized", "Equal-spaced")))
 stopifnot(nrow(r) == 35, nrow(s) == 10, all(s$n == 2700), all(r$mean_ratio > 0))
-write.csv(r, file.path(output_dir, "Figure_S1A_summary.csv"), row.names = FALSE)
-write.csv(s, file.path(output_dir, "Figure_S1B_summary.csv"), row.names = FALSE)
+write.csv(r, file.path(summary_dir, "Figure_S1A_summary.csv"), row.names = FALSE)
+write.csv(s, file.path(summary_dir, "Figure_S1B_summary.csv"), row.names = FALSE)
 fill_scale <- scale_fill_gradient2(low = "#125C8A", mid = "#F7F7F7", high = "#C5704C",
   midpoint = 0, limits = log2(c(.3, 1.1)), breaks = c(-1.5, -1, -.5, 0),
   name = expression(log[2](frac(RMSE[optimized], RMSE[equal]))))
